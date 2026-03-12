@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Media Downloader</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <meta property="og:image" content="https://cdn.sanity.io/images/verbey6h/production/0d5d219795a25cfff5d8f48e008f57ae488c658d-1200x630.png"/>
+    </head>
+    <body>
+        <h2 class="">
+            Media Downloader
+        </h2>
+        <div class="">
+            <form name="download-options">
+                <select name="types" id="mediaTypes" onchange="mediaTypeChange(this.value)">
+                    <option id="0" value="" disabled selected>
+                        Select a media target
+                    </option>
+                    <option id="01" value="og_image">
+                        OG Image
+                    </option>
+                    <option id="02" value="og_video">
+                        OG Video
+                    </option>
+                </select>
+            </form> 
+        </div>
+        <div class="">
+            <button onclick="downloadMedia()" class="">
+                Download
+            </button>
+        </div>
+        <div>
+            <p id="status"></p>
+        </div>
+        <script src="popup.js"></script>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+{
+    "manifest_version": 2,
+    "name": "Media Downloader",
+    "version": "1.0",
+    "description": "Download images and videos.",
+    "permissions": ["downloads"],
+    "background": 
+    {
+        "scripts": ["background.js"]
+    },
+    "browser_action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "images/download_16.png",
+        "48": "images/download_48.png",
+        "128": "images/download_128.png"
+      }
+    },
+    "icons": {
+      "16": "images/download_16.png",
+      "48": "images/download_48.png",
+      "128": "images/download_128.png"
+    }
+  }
