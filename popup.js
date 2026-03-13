@@ -19,38 +19,86 @@ class PageDataMediaDownloader{
     }
 }
 
-const activePDMD = new PageDataMediaDownloader("", "")
+//const activePDMD = new PageDataMediaDownloader("", "")
 
-//Get URLs for media upon page load
+//Setup event handlers & get meta URLs for media upon page load
 document.addEventListener('DOMContentLoaded', function(){
     console.log("DOM Content Loaded")
 
-    // const metaTags = document.getElementsByTagName("meta")
     // const videoTags = document.getElementsByTagName("video")
 
     const ogImageMetaTag = document.querySelector('meta[property="og:image"]')
     const ogVideoMetaTag = document.querySelector('meta[property="og:video"]')
 
     if(ogImageMetaTag && ogImageMetaTag.content){
-        console.log(ogImageMetaTag.content)
-        activePDMD._imageMetaUrl = ogImageMetaTag.content
+        //console.log(ogImageMetaTag.content)
+        //activePDMD._imageMetaUrl = ogImageMetaTag.content
     }
 
     if(ogVideoMetaTag && ogVideoMetaTag.content){
-        console.log(ogVideoMetaTag)
-        activePDMD._videoMetaUrl = ogVideoMetaTag.content
+        //console.log(ogVideoMetaTag)
+        //activePDMD._videoMetaUrl = ogVideoMetaTag.content
     }
+
+    document.getElementById('mediaTypes').addEventListener('change', function(){
+        mediaTypeChange(this.value)
+    })
+    document.getElementById('downloadMediaBtn').addEventListener('click', downloadMedia)
     
 })
 
+
+
+async function getOgImageFromPage() {
+  // Get the active tab first
+  const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+  
+  // Send message to the content script running on that tab
+  const response = await browser.tabs.sendMessage(
+    tab.id,  // target the specific tab
+    { action: "getOgImage" }
+  );
+  
+  return response?.url;
+}
+
+// Usage
+// document.getElementById("downloadBtn").addEventListener("click", async () => {
+//   const imageUrl = await getOgImageFromPage();
+  
+//   if (!imageUrl) {
+//     console.error("No og:image found on this page");
+//     return;
+//   }
+
+//   browser.runtime.sendMessage({ action: "downloadImage", url: imageUrl });
+// });
+
+
+
+
 function mediaTypeChange(value){
-    console.log(activePDMD._imageMetaUrl)
+    //console.log(activePDMD._imageMetaUrl)
     console.log("Media Type Change to: " + value)
 }
 
-function downloadMedia(){
-    const url = activePDMD._imageMetaUrl
+async function downloadMedia(){
+    //const url = activePDMD._imageMetaUrl
     const status = document.getElementById("status")
+
+    // let thisPagesMetaImage = document.querySelector('meta[property="og:image"]').content
+    // console.log("This should be this pages og image")
+    // console.log(thisPagesMetaImage)
+
+    // let url = thisPagesMetaImage
+
+    const url = await getOgImageFromPage();
+  
+    if (!url) {
+        console.log(url)
+        console.error("No og:image found on this page");
+        return;
+    }
 
     browser.runtime.sendMessage(
     { action: "downloadImage", url: url },

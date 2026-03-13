@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
     "name": "Media Downloader",
-    "version": "1.0",
+    "version": "0.0.1",
     "description": "Download images and videos.",
-    "permissions": ["downloads"],
+    "permissions": ["downloads", "<all_urls>", "tabs", "activeTab"],
     "background": 
     {
         "scripts": ["background.js"]
@@ -16,6 +16,20 @@
         "128": "images/download_128.png"
       }
     },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "@media-downloader",
+            "data_collection_permissions": {
+                "required": ["none"]
+            }
+        }
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ],
     "icons": {
       "16": "images/download_16.png",
       "48": "images/download_48.png",
